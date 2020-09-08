@@ -1,0 +1,9 @@
+nro_caso,genero,edad,provincia_residencia,fecha_inicio_sintomas,indicacion_internacion,fecha_internacion,cuidado_intensivo,asist_resp_mecanica,fallecido,fecha_fallecimiento,ultima_actualizacion
+1,m,37,Buenos Aires,20-06-2020,NO,00-00-0000,NO,NO,NO,00-00-0000,2020-09-03
+2,f,27,Chaco,17-04-2020,NO,00-00-0000,NO,NO,NO,00-00-0000,2020-09-03
+3,f,64,Chaco,05-04-2020,NO,00-00-0000,NO,NO,NO,00-00-0000,2020-09-03
+4,f,27,Entre Rios,09-05-2020,NO,00-00-0000,NO,NO,NO,00-00-0000,2020-09-03
+5,f,27,Chaco,17-04-2020,NO,00-00-0000,NO,NO,NO,00-00-0000,2020-09-03
+6,m,27,Buenos Aires,17-04-2020,NO,00-00-0000,NO,NO,NO,00-00-0000,2020-09-04
+7,m,68,Buenos Aires,01-04-2020,SI,10-04-2020,SI,SI,SI,04-05-2020,2020-09-07
+8,f,30,Mendoza,10-06-2020,NO,00-00-0000,NO,NO,NO,00-00-0000,2020-09-07
