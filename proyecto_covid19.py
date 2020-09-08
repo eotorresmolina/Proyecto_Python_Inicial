@@ -158,6 +158,7 @@ def menu_invitado( ):
     print('7 - Ver Toda la Información Disponible.')
     print('8 - Salir y Volver al Menú de Bienvenida.')
 
+
 def invitado ( ):
     flag = False
     while flag == False:
