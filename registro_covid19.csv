@@ -7,3 +7,4 @@ nro_caso,genero,edad,provincia_residencia,fecha_inicio_sintomas,indicacion_inter
 6,m,27,Buenos Aires,17-04-2020,NO,00-00-0000,NO,NO,NO,00-00-0000,2020-09-04
 7,m,68,Buenos Aires,01-04-2020,SI,10-04-2020,SI,SI,SI,04-05-2020,2020-09-07
 8,f,30,Mendoza,10-06-2020,NO,00-00-0000,NO,NO,NO,00-00-0000,2020-09-07
+9,f,55,Santa Fe,07-06-2020,SI,15-06-2020,SI,si,si,01-07-2020,2020-09-09

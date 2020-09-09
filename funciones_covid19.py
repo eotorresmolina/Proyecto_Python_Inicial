@@ -9,6 +9,7 @@ Archivo: registro_covid19.csv
 
 import myfunctions as myf
 import math as mth
+import datetime
 from datetime import date
 
 
@@ -19,6 +20,34 @@ def total_contagiados ( ):
     de Casos Positivos en la República Argentina.
     """
     return myf.cantidad_lineas()
+
+
+def total_internados ( ):
+    """    
+    Función que Devuelve la Cantidad Total
+    de Contagiados Internados en la República Argentina.
+    """
+    cant_total_int = 0
+    data = myf.leer_registro(nombre_archivo='registro_covid19.csv')
+    for row in range(len(data)):
+        if data[row].get('indicacion_internacion').upper( ) == 'SI':
+            cant_total_int += 1
+
+    return cant_total_int
+
+
+def total_fallecidos ( ):
+    """    
+    Función que Devuelve la Cantidad Total
+    de Contagiados Fallecidos en la República Argentina.
+    """
+    cant_total_fallec = 0
+    data = myf.leer_registro(nombre_archivo='registro_covid19.csv')
+    for row in range(len(data)):
+        if data[row].get('fallecido').upper( ) == 'SI':
+            cant_total_fallec += 1
+
+    return cant_total_fallec
 
 
 def contagios_provincia (provincia ):
@@ -33,7 +62,7 @@ def contagios_provincia (provincia ):
     caso_positivo = 0
     data = myf.leer_registro(nombre_archivo='registro_covid19.csv')
     for row in range(len(data)):
-        if data[row].get('provincia_residencia') == provincia:
+        if ((data[row].get('provincia_residencia') == provincia) or (data[row].get('provincia_residencia') in provincia)):
             caso_positivo += 1
 
     return caso_positivo
@@ -72,19 +101,18 @@ def promedio ( ):
     suma_edades_contagiados = 0
     suma_edades_internados = 0
     suma_edades_fallecidos = 0
-
     personas_internadas = 0
     personas_fallecidas = 0
 
     data = myf.leer_registro(nombre_archivo='registro_covid19.csv')
     for row in range(len(data)):
-        suma_edades_contagiados += int(data[row].get('edad'))
+        suma_edades_contagiados += int(data[row].get('edad')) # Realizo la Suma de Todas las Edades.
 
-        if ((data[row].get('indicacion_internacion') == 'SI') or ((data[row].get('indicacion_internacion') == 'si'))):
+        if (data[row].get('indicacion_internacion').upper( ) == 'SI'):
             personas_internadas += 1
             suma_edades_internados += int(data[row].get('edad'))
 
-        if ((data[row].get('fallecido') == 'SI') or ((data[row].get('fallecido') == 'si'))):
+        if (data[row].get('fallecido').upper( ) == 'SI'):
             personas_fallecidas += 1
             suma_edades_fallecidos += int(data[row].get('edad'))
 
@@ -160,7 +188,7 @@ def contagios_mes(mes, anio):
     return contagios_positivos
 
         
-def obtener_mes ( ):
+def obtener_max_mes ( ):
     """
     Función que Calcula el Mes con más cantidad de
     Casos Registrados.
@@ -179,6 +207,27 @@ def obtener_mes ( ):
     mes = meses[index]
 
     return mes, max_contagios
+
+
+def obtener_min_mes ( ):
+    """
+    Función que Calcula el Mes con menos cantidad de
+    Casos Registrados.
+    Return: mes, max_contagios
+    """
+    meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio',
+    'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+    meses_numeros = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+    contagios = [0] * len(meses) 
+
+    for i in range(len(meses_numeros)):
+        contagios[i] = contagios_mes(int(meses_numeros[i]), anio=2020)
+
+    min_contagios = min(contagios)
+    index = contagios.index(min_contagios)
+    mes = meses[index]
+
+    return mes, min_contagios
         
 
 def fecha_uactualizacion( ):
@@ -206,7 +255,79 @@ def asistencia_respiratoria ( ):
     cantidad = 0
     data = myf.leer_registro(nombre_archivo='registro_covid19.csv')
     for row in range(len(data)):
-        if ((data[row].get('asist_resp_mecanica') == 'SI') or (data[row].get('asist_resp_mecanica') == 'si')):
+        if (data[row].get('asist_resp_mecanica').upper( ) == 'SI'):
             cantidad += 1
 
     return cantidad
+
+
+def mostrar_info ( ):
+    today = date.today( )
+    print('Fecha Actual: {}\n'.format(today))
+    cant_total_contagiados = myf.cantidad_lineas( )
+    cant_total_intern = total_internados()
+    cant_total_fallec = total_fallecidos( )
+    print('La Cantidad Total de Contagiados en la República Argentina es de: {}.'.format(cant_total_contagiados))
+    print('La Cantidad Total de Internados en la República Argentina es de: {}.'.format(cant_total_intern))
+    print('La Cantidad Total de Fallecidos en la República Argentina es de: {}.\n\n'.format(cant_total_fallec))
+    provincia_max, cant = obtener_provincia( )
+    print('{} con un Total de {} Personas Contagiadas es la Provincia con Mayor Cantidad de Casos Registrados.'.format(provincia_max, cant))
+    promedios = [0] * 3
+    promedios[0], promedios[1], promedios[2] = promedio( )
+    print('El Promedio de Edad de Personas Contagiadas es de {} años.'.format(promedios[0]))
+    print('El Promedio de Edad de Personas Internadas es de {} años.'.format(promedios[1]))
+    print('El Promedio de Edad de Personas Fallecidas es de {} años.'.format(promedios[2]))
+    cant_asist_resp = asistencia_respiratoria( )
+    print('La Cantidad de Contagiados que Requirieron Asistencia Respiratoria Mecánica es: {}.'.format(cant_asist_resp))
+    mm, cant_contag = obtener_max_mes( )
+    print('{} con un Total de {} Personas Contagiadas es el Mes con Mayor Cantidad de Casos Registrados.'.format(mm, cant_contag))
+    mm, cant_contag = obtener_min_mes( )
+    print('{} con un Total de {} Personas Contagiadas es el Mes con Menor Cantidad de Casos Registrados.\n\n'.format(mm, cant_contag))
+    fecha_u_actualizacion = fecha_uactualizacion( )
+    print('Toda la Información hasta el Momento fue Cargada en la Fecha: {}\n\n'.format(fecha_u_actualizacion))
+
+
+def escribir_informe ( ):
+    nombre_archivo = 'informe_covid19.txt'
+    now = datetime.datetime.now( ) # Obtengo la Fecha Actual
+    with open(nombre_archivo, 'w') as txt:
+        row = 'Fecha y Hora del Informe: ' + str(now) + '\n\n'
+        txt.writelines(row)
+
+        cant_total_contagiados = myf.cantidad_lineas( )
+        row = 'La Cantidad Total de Contagiados en la República Argentina es de: ' + str(cant_total_contagiados) + '\n'
+        txt.writelines(row)
+
+        cant_total_intern = total_internados()
+        row = 'La Cantidad Total de Internados en la República Argentina es de: ' + str(cant_total_intern) + '\n'
+        txt.writelines(row)
+
+        cant_total_fallec = total_fallecidos( )
+        row = 'La Cantidad Total de Fallecidos en la República Argentina es de: ' + str(cant_total_fallec) + '\n'
+        txt.writelines(row)
+        
+        provincia_max, cant = obtener_provincia( )
+        row = provincia_max + ' con un Total de ' + str(cant) + ' Personas Contagiadas es la Provincia con Mayor Cantidad de Casos Registrados.\n'
+        txt.writelines(row)
+    
+        promedios = [0] * 3
+        promedios[0], promedios[1], promedios[2] = promedio( )
+        txt.writelines('El Promedio de Edad de Personas Contagiadas es de ' + str(promedios[0]) + ' años.\n')
+        txt.writelines('El Promedio de Edad de Personas Internadas es de ' + str(promedios[1]) + ' años.\n')
+        txt.writelines('El Promedio de Edad de Personas Fallecidas es de ' + str(promedios[2]) + ' años.\n')
+    
+        cant_asist_resp = asistencia_respiratoria( )
+        row ='La Cantidad de Contagiados que Requirieron Asistencia Respiratoria Mecánica es de ' + str(cant_asist_resp) + '.\n'
+        txt.writelines(row)
+
+        mm, cant_contag = obtener_max_mes( )
+        row = mm + ' con un Total de ' + str(cant_contag) + ' Personas Contagiadas es el Mes con Mayor Cantidad de Casos Registrados.\n'
+        txt.writelines(row)
+
+        mm, cant_contag = obtener_min_mes( )
+        row = mm + ' con un Total de ' + str(cant_contag) + ' Personas Contagiadas es el Mes con Menor Cantidad de Casos Registrados.\n'
+        txt.writelines(row)
+
+        fecha_u_actualizacion = fecha_uactualizacion( )
+        row = 'Última Actualización del Registro ==> Toda la Información hasta el Momento fue Cargada en la Fecha: ' + fecha_u_actualizacion + '.\n'
+        txt.writelines(row)      

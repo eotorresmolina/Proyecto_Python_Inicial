@@ -78,3 +78,6 @@ def mostrar_registro_completo(nombre_archivo):
 
     print('\n\n')
 
+
+
+

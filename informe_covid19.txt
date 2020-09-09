@@ -1,0 +1,13 @@
+Fecha y Hora del Informe: 2020-09-09 20:57:40.840511
+
+La Cantidad Total de Contagiados en la República Argentina es de: 9
+La Cantidad Total de Internados en la República Argentina es de: 2
+La Cantidad Total de Fallecidos en la República Argentina es de: 2
+Buenos Aires con un Total de 3 Personas Contagiadas es la Provincia con Mayor Cantidad de Casos Registrados.
+El Promedio de Edad de Personas Contagiadas es de 41 años.
+El Promedio de Edad de Personas Internadas es de 62 años.
+El Promedio de Edad de Personas Fallecidas es de 62 años.
+La Cantidad de Contagiados que Requirieron Asistencia Respiratoria Mecánica es de 2.
+Abril con un Total de 5 Personas Contagiadas es el Mes con Mayor Cantidad de Casos Registrados.
+Enero con un Total de 0 Personas Contagiadas es el Mes con Menor Cantidad de Casos Registrados.
+Última Actualización del Registro ==> Toda la Información hasta el Momento fue Cargada en la Fecha: 09-09-2020.

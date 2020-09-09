@@ -149,13 +149,13 @@ def menu_invitado( ):
     """
     print('Atención: Usted Ingresó como Invitado.')
     print('A Continuación se Detalla un Menú con las Opciones Disponibles:\n')
-    print('1 - Obtener el Total de Contagiados en la República Argentina.')
+    print('1 - Obtener el Total de Contagiados, Internados y Fallecidos en la República Argentina.')
     print('2 - Provincia con Mayor Cantidad de Casos.')
     print('3 - Promedio de Edad de Personas Contagiadas, Internadas y Fallecidas.')
     print('4 - Cantidad de Personas que Necesitaron Asistencia Respiratoria Mecánica.')
-    print('5 - Mes con Mayor Cantidad de Contagios y Fallecidos.')
+    print('5 - Mes con Menor y Mayor Cantidad de Contagios y Fallecidos.')
     print('6 - Fecha de la Última Actualización del Registro.')
-    print('7 - Ver Toda la Información Disponible.')
+    print('7 - Ver Toda la Información Disponible y Generar un Informe.')
     print('8 - Salir y Volver al Menú de Bienvenida.')
 
 
@@ -168,7 +168,11 @@ def invitado ( ):
             if opcion_menu == 1:
                 system('cls')
                 cant_total_contagiados = fcovid19.total_contagiados( )
-                print('La Cantidad Total de Contagiados en la República Argentina es de: {}.\n\n'.format(cant_total_contagiados))                
+                cant_total_intern = fcovid19.total_internados()
+                cant_total_fallec = fcovid19.total_fallecidos( ) 
+                print('La Cantidad Total de Contagiados en la República Argentina es de: {}.'.format(cant_total_contagiados))
+                print('La Cantidad Total de Internados en la República Argentina es de: {}.'.format(cant_total_intern))
+                print('La Cantidad Total de Fallecidos en la República Argentina es de: {}.\n\n'.format(cant_total_fallec))                
             elif opcion_menu == 2:
                 system('cls')
                 provincia, cant_contagiados = fcovid19.obtener_provincia( )
@@ -186,15 +190,19 @@ def invitado ( ):
                 print('La Cantidad de Contagiados que Requirieron Asistencia Respiratoria Mecánica es: {}.\n\n'.format(cant_asist_resp))
             elif opcion_menu == 5:
                 system('cls')
-                mm, cant_contag = fcovid19.obtener_mes( )
-                print('{} con un Total de {} Personas Contagiadas es el Mes con Mayor Cantidad de Casos Registrados.\n\n'.format(mm, cant_contag))
+                mm, cant_contag = fcovid19.obtener_max_mes( )
+                print('{} con un Total de {} Personas Contagiadas es el Mes con Mayor Cantidad de Casos Registrados.'.format(mm, cant_contag))
+                mm, cant_contag = fcovid19.obtener_min_mes( )
+                print('{} con un Total de {} Personas Contagiadas es el Mes con Menor Cantidad de Casos Registrados.\n\n'.format(mm, cant_contag))
             elif opcion_menu == 6:
                 system('cls')
                 fecha_u_actualizacion = fcovid19.fecha_uactualizacion( )
                 print('Toda la Información hasta el Momento fue Cargada en la Fecha: {}\n\n'.format(fecha_u_actualizacion))
             elif opcion_menu == 7:
-                # Me falta Hacer esta parte todavía.
-                pass
+                system('cls')
+                fcovid19.mostrar_info( )
+                fcovid19.escribir_informe( )
+                print('ATENCIÓN!!: Se Ha Generado y/o Actualizado el Siguiente Archivo: "informe_covid19.txt".\n\n')
             elif opcion_menu == 8:
                 flag = True
                 system('cls')
