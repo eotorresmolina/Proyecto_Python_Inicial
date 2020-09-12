@@ -1,4 +1,4 @@
-Fecha y Hora del Informe: 2020-09-12 19:30:48.533149
+Fecha y Hora del Informe: 2020-09-12 19:33:15.111140
 
 La Cantidad Total de Contagiados en la República Argentina es de: 10
 La Cantidad Total de Internados en la República Argentina es de: 3
