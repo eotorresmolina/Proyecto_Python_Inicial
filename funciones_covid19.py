@@ -69,7 +69,7 @@ def contagios_provincia (provincia ):
     return caso_positivo
 
 
-def obtener_provincia( ):
+def obtener_max_provincia( ):
     """
     Función que Calcula la Provincia con
     Mayor Cantidad de Casos.
@@ -91,6 +91,30 @@ def obtener_provincia( ):
     provincia = provincias[index]
 
     return provincia, max_contagiados
+
+
+def obtener_min_provincia( ):
+    """
+    Función que Calcula la Provincia con
+    Menor Cantidad de Casos.
+    Retorna la Provincia y la Cantidad de Casos.
+    """
+    # Genero una lista con Todas las Provincias de Argentina.
+    provincias = ['Buenos Aires', 'Catamarca', 'Chaco', 'Chubut', 'Córdoba', 'Corrientes', 
+    'Entre Ríos', 'Formosa', 'Jujuy' ,'La Pampa', 'La Rioja', 'Mendoza', 'Misiones' ,'Neuquén', 
+    'Río Negro', 'Salta', 'San Juan', 'San Luis', 'Santa Cruz', 'Santa Fe', 'Santiago del Estero', 
+    'Tierra del Fuego, Antártida e Isla del Atlántico Sur', 'Tucumán']
+    provincias.sort() 
+    casos = [0] * len(provincias)  # Genero una lista de ceros del mismo tamaño que 'provincias'.
+    for i in range(len(provincias)):
+        provincias[i] = str(provincias[i]).upper( )
+        casos[i] = contagios_provincia(provincias[i])
+    
+    min_contagiados = min(casos) # Calculo el Máximo.
+    index = casos.index(min_contagiados) # Obtengo el índice del Máximo
+    provincia = provincias[index]
+
+    return provincia, min_contagiados
 
 
 def promedio ( ):
@@ -135,6 +159,9 @@ def promedio_dsf ( ):
     Función que Calcula el Promedio de Días
     que Hay Entre que Una Persona Tuvo los Síntomas
     y Falleció.
+    NOTA: Esta función sólo sirve si la diferencia
+    entre las fechas no supera los 2 meses y si el
+    año en que sucedió es el mismo
     """
     promedio = 0
     dias = 0
@@ -144,20 +171,25 @@ def promedio_dsf ( ):
     data = myf.leer_registro(nombre_archivo='registro_covid19.csv')
     for row in range(len(data)):
         if data[row].get('fallecido').upper( ) == 'SI':
-            cant_fallecidos +=1
+            cant_fallecidos += 1
             fecha_sintomas = data[row].get('fecha_inicio_sintomas').split('-')
             dds, mms, aas = int(fecha_sintomas[0]), int(fecha_sintomas[1]), int(fecha_sintomas[2])
             fecha_fallecimiento = data[row].get('fecha_fallecimiento').split('-')
-            ddf, mmf, aaf = int(fecha_fallecimiento[0]), int(fecha_fallecimiento[1]), int(fecha_fallecimiento[2])
-            if mms != mmf:
-                if ((mms == 1) or (mms == 3) or (mms == 5) or (mms == 7) or (mms == 8) or (mms == 10) or (mms == 12)):
-                    dias += (31 - dds) + ddf
+            ddf, mmf, aaf = int(fecha_fallecimiento[0]), int(fecha_fallecimiento[1]), int(fecha_fallecimiento[2])        
+            if aaf == aas:
+                if mmf != mms:
+                    if ((mms == 1) or (mms == 3) or (mms == 5) or (mms == 7) or (mms == 8) or (mms == 10) or (mms == 12)):
+                        dias += (31 - dds) + ddf
+                    elif ((mms == 4) or (mms == 6) or (mms == 9) or (mms == 11)):
+                        dias += (30 - dds) + ddf
+                    elif mms == 2:
+                        dias += (28 - dds) + ddf
+            
+                elif mmf == mms:
+                    dias += (ddf - dds)
 
-                elif ((mms == 4) or (mms == 6) or (mms == 9) or (mms == 11)):
-                    dias += (30 - dds) + ddf
-
-                elif mms == 2:
-                    dias += (28 - dds) + ddf
+    promedio = mth.ceil(dias / cant_fallecidos)
+    return promedio
 
 
 def casos_fecha(dia, mes, anio):
@@ -307,13 +339,17 @@ def mostrar_info ( ):
     print('La Cantidad Total de Contagiados en la República Argentina es de: {}.'.format(cant_total_contagiados))
     print('La Cantidad Total de Internados en la República Argentina es de: {}.'.format(cant_total_intern))
     print('La Cantidad Total de Fallecidos en la República Argentina es de: {}.\n\n'.format(cant_total_fallec))
-    provincia_max, cant = obtener_provincia( )
+    provincia_max, cant = obtener_max_provincia( )
     print('{} con un Total de {} Personas Contagiadas es la Provincia con Mayor Cantidad de Casos Registrados.'.format(provincia_max, cant))
+    provincia_min, cant = obtener_min_provincia( )
+    print('{} con un Total de {} Personas Contagiadas es la Provincia con Menor Cantidad de Casos Registrados.'.format(provincia_min, cant))
     promedios = [0] * 3
     promedios[0], promedios[1], promedios[2] = promedio( )
     print('El Promedio de Edad de Personas Contagiadas es de {} años.'.format(promedios[0]))
     print('El Promedio de Edad de Personas Internadas es de {} años.'.format(promedios[1]))
     print('El Promedio de Edad de Personas Fallecidas es de {} años.'.format(promedios[2]))
+    prom = promedio_dsf( )
+    print('El Promedio de Días Entre que Una Persona Tuvo los Síntomas y Falleció es de {} días.'.format(prom))
     cant_asist_resp = asistencia_respiratoria( )
     print('La Cantidad de Contagiados que Requirieron Asistencia Respiratoria Mecánica es: {}.'.format(cant_asist_resp))
     mm, cant_contag = obtener_max_mes( )
@@ -348,8 +384,12 @@ def escribir_informe ( ):
         row = 'La Cantidad Total de Fallecidos en la República Argentina es de: ' + str(cant_total_fallec) + '\n'
         txt.writelines(row)
         
-        provincia_max, cant = obtener_provincia( )
+        provincia_max, cant = obtener_max_provincia( )
         row = provincia_max + ' con un Total de ' + str(cant) + ' Personas Contagiadas es la Provincia con Mayor Cantidad de Casos Registrados.\n'
+        txt.writelines(row)
+
+        provincia_min, cant = obtener_min_provincia( )
+        row = provincia_min + ' con un Total de ' + str(cant) + ' Personas Contagiadas es la Provincia con Menor Cantidad de Casos Registrados.\n'
         txt.writelines(row)
     
         promedios = [0] * 3
@@ -358,6 +398,10 @@ def escribir_informe ( ):
         txt.writelines('El Promedio de Edad de Personas Internadas es de ' + str(promedios[1]) + ' años.\n')
         txt.writelines('El Promedio de Edad de Personas Fallecidas es de ' + str(promedios[2]) + ' años.\n')
     
+        prom = promedio_dsf( )
+        row = 'El Promedio de Días Entre que Una Persona Tuvo los Síntomas y Falleció es de ' + str(prom) + ' días.\n'
+        txt.writelines(row)
+
         cant_asist_resp = asistencia_respiratoria( )
         row ='La Cantidad de Contagiados que Requirieron Asistencia Respiratoria Mecánica es de ' + str(cant_asist_resp) + '.\n'
         txt.writelines(row)
