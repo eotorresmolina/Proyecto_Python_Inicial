@@ -172,11 +172,16 @@ def invitado ( ):
                 cant_total_fallec = fcovid19.total_fallecidos( ) 
                 print('La Cantidad Total de Contagiados en la República Argentina es de: {}.'.format(cant_total_contagiados))
                 print('La Cantidad Total de Internados en la República Argentina es de: {}.'.format(cant_total_intern))
-                print('La Cantidad Total de Fallecidos en la República Argentina es de: {}.\n\n'.format(cant_total_fallec))                
+                print('La Cantidad Total de Fallecidos en la República Argentina es de: {}.\n'.format(cant_total_fallec))                
             elif opcion_menu == 2:
                 system('cls')
                 provincia, cant_contagiados = fcovid19.obtener_provincia( )
                 print('{} con un Total de {} Personas Contagiadas es la Provincia con Mayor Cantidad de Casos Registrados.\n\n'.format(provincia, cant_contagiados))
+                prov = str(input('Ingrese la Provincia que Desee para Obtener la Cantidad de Contagiados o "FIN" para Volver. Luego Presione la Tecla "Enter": '))
+                print('\n\n')
+                if prov.upper( ) != "FIN":
+                    cant = fcovid19.contagios_provincia(prov)
+                    print('\nLa Cantidad de Personas Contagiadas que Hay en la Provincia que Ingresó: "{}" es: {}\n\n'.format(prov, cant))
             elif opcion_menu == 3:
                 system('cls')
                 promedios = [0] * 3     # Genero una lista de ceros

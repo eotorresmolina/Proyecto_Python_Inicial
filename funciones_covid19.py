@@ -60,9 +60,10 @@ def contagios_provincia (provincia ):
     """
 
     caso_positivo = 0
+    provincia = provincia.upper( )
     data = myf.leer_registro(nombre_archivo='registro_covid19.csv')
     for row in range(len(data)):
-        if ((data[row].get('provincia_residencia') == provincia) or (data[row].get('provincia_residencia') in provincia)):
+        if (data[row].get('provincia_residencia').upper( ) in provincia):
             caso_positivo += 1
 
     return caso_positivo
@@ -82,6 +83,7 @@ def obtener_provincia( ):
     provincias.sort() 
     casos = [0] * len(provincias)  # Genero una lista de ceros del mismo tamaño que 'provincias'.
     for i in range(len(provincias)):
+        provincias[i] = str(provincias[i]).upper( )
         casos[i] = contagios_provincia(provincias[i])
     
     max_contagiados = max(casos) # Calculo el Máximo.
@@ -126,6 +128,36 @@ def promedio ( ):
     promedio_contagiados = mth.ceil(suma_edades_contagiados / len(data)) # Redondeo el Promedio.
 
     return promedio_contagiados, promedio_internados, promedio_fallecidos
+
+
+def promedio_dsf ( ):
+    """
+    Función que Calcula el Promedio de Días
+    que Hay Entre que Una Persona Tuvo los Síntomas
+    y Falleció.
+    """
+    promedio = 0
+    dias = 0
+    cant_fallecidos = 0
+    fecha_sintomas = 0
+    fecha_fallecimiento = 0
+    data = myf.leer_registro(nombre_archivo='registro_covid19.csv')
+    for row in range(len(data)):
+        if data[row].get('fallecido').upper( ) == 'SI':
+            cant_fallecidos +=1
+            fecha_sintomas = data[row].get('fecha_inicio_sintomas').split('-')
+            dds, mms, aas = int(fecha_sintomas[0]), int(fecha_sintomas[1]), int(fecha_sintomas[2])
+            fecha_fallecimiento = data[row].get('fecha_fallecimiento').split('-')
+            ddf, mmf, aaf = int(fecha_fallecimiento[0]), int(fecha_fallecimiento[1]), int(fecha_fallecimiento[2])
+            if mms != mmf:
+                if ((mms == 1) or (mms == 3) or (mms == 5) or (mms == 7) or (mms == 8) or (mms == 10) or (mms == 12)):
+                    dias += (31 - dds) + ddf
+
+                elif ((mms == 4) or (mms == 6) or (mms == 9) or (mms == 11)):
+                    dias += (30 - dds) + ddf
+
+                elif mms == 2:
+                    dias += (28 - dds) + ddf
 
 
 def casos_fecha(dia, mes, anio):
@@ -262,6 +294,11 @@ def asistencia_respiratoria ( ):
 
 
 def mostrar_info ( ):
+    """
+    Función que Muestra en Pantalla
+    Toda la Información Disponible
+    acerca del Covid-19
+    """
     today = date.today( )
     print('Fecha Actual: {}\n'.format(today))
     cant_total_contagiados = myf.cantidad_lineas( )
@@ -288,6 +325,11 @@ def mostrar_info ( ):
 
 
 def escribir_informe ( ):
+    """
+    Función que Crea un Informe con Toda la Información
+    Disponible acerca del COVID-19. La Información
+    se Almacena en "informe_covid19.txt"
+    """
     nombre_archivo = 'informe_covid19.txt'
     now = datetime.datetime.now( ) # Obtengo la Fecha Actual
     with open(nombre_archivo, 'w') as txt:
