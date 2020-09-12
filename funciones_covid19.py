@@ -338,7 +338,7 @@ def mostrar_info ( ):
     cant_total_fallec = total_fallecidos( )
     print('La Cantidad Total de Contagiados en la República Argentina es de: {}.'.format(cant_total_contagiados))
     print('La Cantidad Total de Internados en la República Argentina es de: {}.'.format(cant_total_intern))
-    print('La Cantidad Total de Fallecidos en la República Argentina es de: {}.\n\n'.format(cant_total_fallec))
+    print('La Cantidad Total de Fallecidos en la República Argentina es de: {}.'.format(cant_total_fallec))
     provincia_max, cant = obtener_max_provincia( )
     print('{} con un Total de {} Personas Contagiadas es la Provincia con Mayor Cantidad de Casos Registrados.'.format(provincia_max, cant))
     provincia_min, cant = obtener_min_provincia( )
