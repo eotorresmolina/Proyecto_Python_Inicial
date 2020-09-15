@@ -159,34 +159,43 @@ def promedio_dsf ( ):
     Función que Calcula el Promedio de Días
     que Hay Entre que Una Persona Tuvo los Síntomas
     y Falleció.
-    NOTA: Esta función sólo sirve si la diferencia
-    entre las fechas no supera los 2 meses y si el
-    año en que sucedió es el mismo
     """
     promedio = 0
     dias = 0
     cant_fallecidos = 0
     fecha_sintomas = 0
     fecha_fallecimiento = 0
+    dias_meses = [None, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]     # Cant. de Días que Tiene cada mes del año
     data = myf.leer_registro(nombre_archivo='registro_covid19.csv')
     for row in range(len(data)):
         if data[row].get('fallecido').upper( ) == 'SI':
             cant_fallecidos += 1
             fecha_sintomas = data[row].get('fecha_inicio_sintomas').split('-')
-            dds, mms, aas = int(fecha_sintomas[0]), int(fecha_sintomas[1]), int(fecha_sintomas[2])
+            dds, mms = int(fecha_sintomas[0]), int(fecha_sintomas[1])
             fecha_fallecimiento = data[row].get('fecha_fallecimiento').split('-')
-            ddf, mmf, aaf = int(fecha_fallecimiento[0]), int(fecha_fallecimiento[1]), int(fecha_fallecimiento[2])        
-            if aaf == aas:
-                if mmf != mms:
-                    if ((mms == 1) or (mms == 3) or (mms == 5) or (mms == 7) or (mms == 8) or (mms == 10) or (mms == 12)):
-                        dias += (31 - dds) + ddf
-                    elif ((mms == 4) or (mms == 6) or (mms == 9) or (mms == 11)):
-                        dias += (30 - dds) + ddf
-                    elif mms == 2:
-                        dias += (28 - dds) + ddf
-            
-                elif mmf == mms:
-                    dias += (ddf - dds)
+            ddf, mmf = int(fecha_fallecimiento[0]), int(fecha_fallecimiento[1])        
+            if mmf > mms:   # Si el mes de fallecimiento es mayor al de los síntomas pero dentro del mismo año
+                diferencia = mmf - mms - 1 
+                while diferencia > 0:
+                    dias += dias_meses[(mms + diferencia)]
+                    diferencia -= 1
+                dias += (dias_meses[mms] - dds) + ddf
+            elif mmf == mms:        # Coinciden los meses y el año
+                dias += (ddf - dds)
+            else:       # En el Caso que la Persona fallece en un año distinto al que tuvo los síntomas.
+                dif_mms = (len(dias_meses) - 1) - mms
+                meses_restantes = (dif_mms + mmf) - 1
+                i = 1   # Variable Auxiliar
+                j = 1   # Variable Auxiliar 
+                while meses_restantes > 0:
+                    if ((mms+i) % 13) != 0:
+                        dias += dias_meses[mms+i]
+                    else:                       
+                        dias += dias_meses[j]
+                        j += 1
+                    i += 1
+                    meses_restantes -= 1                   
+                dias += (dias_meses[mms] - dds) + ddf
 
     promedio = mth.ceil(dias / cant_fallecidos)
     return promedio
@@ -244,7 +253,7 @@ def contagios_mes(mes, anio):
     data = myf.leer_registro(nombre_archivo='registro_covid19.csv')
     for row in range(len(data)):
         date = data[row].get('fecha_inicio_sintomas').split('-')
-        dd, mm, aa = int(date[0]), int(date[1]), int(date[2])
+        mm, aa = int(date[1]), int(date[2])
         if aa == anio:
             if mm == mes:
                 contagios_positivos += 1
@@ -325,6 +334,21 @@ def asistencia_respiratoria ( ):
     return cantidad
 
 
+def obt_fecha_hora ( ):
+    """
+    Función que Obtiene la Fecha
+    y Hora Actual.
+    Devuelve fecha y hora.
+    """
+    now = str(datetime.datetime.now( )).split(' ')
+    fecha, hora = now[0], now[1]
+    fecha = str(fecha).split('-')
+    dd, mm, aa = fecha[2], fecha[1], fecha[0]
+    nueva_fecha = dd + '-' + mm + '-' + aa
+    now = nueva_fecha + '   ' + hora
+    return now
+
+
 def mostrar_info ( ):
     """
     Función que Muestra en Pantalla
@@ -367,7 +391,7 @@ def escribir_informe ( ):
     se Almacena en "informe_covid19.txt"
     """
     nombre_archivo = 'informe_covid19.txt'
-    now = datetime.datetime.now( ) # Obtengo la Fecha Actual
+    now = obt_fecha_hora( ) # Obtengo la Fecha Actual
     with open(nombre_archivo, 'w') as txt:
         row = 'Fecha y Hora del Informe: ' + str(now) + '\n\n'
         txt.writelines(row)

@@ -254,7 +254,7 @@ def menu_bienvenida ( ):
                 if login_ok == True:    # Si se Logueó Correctamente...
                     choice = None
                     while ((choice == None) or (choice == 'n')): 
-                        system('cls')
+                        #system('cls')
                         opcion_logueo = menu_logueo(username='user1234')
                         if opcion_logueo == 1: 
                             system('cls')
@@ -267,7 +267,10 @@ def menu_bienvenida ( ):
                                 write_header_csv(file_name, header)
                                 generar_campos(contagiados) # Genero los Campos y los cargo en la Lista Contagiados.
                                 myf.escribir_registro(header, contagiados) # Escribo todo los campos como registro y fila en el archivo
-                                choice = 'n'                       
+                                choice = 'n'
+                                system('cls')
+                            elif choice == 'n':
+                                system('cls')                       
                         elif opcion_logueo == 2:
                             system('cls')
                             myf.mostrar_registro_completo(file_name) # Muestro el Registro Completo.
@@ -281,7 +284,7 @@ def menu_bienvenida ( ):
             elif opcion == 3: # Opción para Salir del Programa.
                 salir = True
                 system('cls')
-                print('Usted ha Salido del Programa.')
+                print('*************** Usted ha Salido del Programa. ***************')
                 print('Muchas Gracias.\n\n')
             else:
                 print('\n\nERROR!! Ha Ingresado una Opción Inválida... Vuelva a Intentarlo:\n')

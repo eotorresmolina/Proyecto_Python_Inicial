@@ -70,11 +70,20 @@ def mostrar_registro_completo(nombre_archivo):
     las líneas que contiene un archivo .csv
     Recibe: nombre_archivo
     """
+    header = ['nro_caso', 'genero', 'edad', 'provincia_residencia', 'fecha_inicio_sintomas',
+    'indicacion_internacion', 'fecha_internacion', 'cuidado_intensivo', 
+    'asist_resp_mecanica', 'fallecido', 'fecha_fallecimiento', 'ultima_actualizacion']
     with open(nombre_archivo, 'r') as csvfile:
         data = list(csv.DictReader(csvfile))
-
         for row in range(len(data)):
-            print('Fila {}: {}'.format(row+1, data[row]))
+            print('Fila {} ==> nro_caso: {}, genero: {}, edad: {}, provincia_residencia: {}, '.format(row+1, data[row].get(header[0]), 
+            data[row].get(header[1]), data[row].get(header[2]), data[row].get(header[3])), end='')
+            print('fecha_inicio_sintomas: {}, indicacion_internacion: {}, fecha_internacion: {}, '.format(data[row].get(header[4]),
+            data[row].get(header[5]), data[row].get(header[6])), end='')
+            print('cuidado_intensivo: {}, asist_resp_mecanica: {}, fallecido: {}, '.format(data[row].get(header[7]),
+            data[row].get(header[8]), data[row].get(header[9])), end='')
+            print('fecha_fallecimiento: {}, ultima_actualizacion: {}\n'.format(data[row].get(header[10]), 
+            data[row].get(header[11])))
 
     print('\n\n')
 
