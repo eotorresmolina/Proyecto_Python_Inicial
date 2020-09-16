@@ -11,4 +11,5 @@
  ### ***email:*** emmaotm@gmail.com
  ### ***Para Ver mis Otros Repositorios*** ==> [Click](https://github.com/eotorresmolina?tab=repositories)
 
- 
+# **Descripción:**
+ #### *El Programa en cuestión permite el Registro de personas que han sido contagiadas de Covid-19. Dicho Registro consta de cierta información que se le irá pidiendo al usuario ingresar para completar el formulario del respectivo contagiado. Además de esto, permite ver la Toda la Información Disponible de todos los casos detallando su información tales así como cant. de promedio de contagios, muertes. Provincia y/o meses con más y menos contagios, etc. Por último el programa permite generar un informe con todo el análisis realizado de los casos positivos.*
