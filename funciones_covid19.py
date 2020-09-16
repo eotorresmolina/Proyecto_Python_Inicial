@@ -223,6 +223,19 @@ def casos_fecha(dia, mes, anio):
     return contagios_positivos
 
 
+def capturar_fecha (fecha):
+    """
+    Función que Convierte una
+    fecha pasada como string
+    a una fecha en enteros.
+    Recibe: str==>fecha
+    Return: dia, mes, año
+    """
+    date = fecha.split('-')
+    dd, mm, aa = int(date[0]), int(date[1]), int(date[2])
+    return dd, mm, aa
+
+
 def obtener_anio (anio):
     """
     Función que Calcula la Cantidad de

@@ -155,7 +155,7 @@ def menu_invitado( ):
     print('4 - Cantidad de Personas que Necesitaron Asistencia Respiratoria Mecánica.')
     print('5 - Mes con Mayor y Menor Cantidad de Contagios y Fallecidos.')
     print('6 - Fecha de la Última Actualización del Registro.')
-    print('7 - Ver Toda la Información Disponible y Generar un Informe.')
+    print('7 - Ver Toda la Información Disponible y Generar un Informe con Dicha Información.')
     print('8 - Salir y Volver al Menú de Bienvenida.')
 
 
@@ -183,7 +183,7 @@ def invitado ( ):
                 print('\n\n')
                 if prov.upper( ) != "FIN":
                     cant = fcovid19.contagios_provincia(prov)
-                    print('\nLa Cantidad de Personas Contagiadas que Hay en la Provincia que Ingresó: "{}" es: {}\n\n'.format(prov, cant))
+                    print('\nLa Cantidad de Personas Contagiadas que Hay en la Provincia que Ingresó: "{}" son: {}\n\n'.format(prov, cant))
             elif opcion_menu == 3:
                 system('cls')
                 promedios = [0] * 3     # Genero una lista de ceros
@@ -201,6 +201,12 @@ def invitado ( ):
                 print('{} con un Total de {} Personas Contagiadas es el Mes con Mayor Cantidad de Casos Registrados.'.format(mm, cant_contag))
                 mm, cant_contag = fcovid19.obtener_min_mes( )
                 print('{} con un Total de {} Personas Contagiadas es el Mes con Menor Cantidad de Casos Registrados.\n\n'.format(mm, cant_contag))
+                fecha = str(input('Ingrese la Fecha con el Siguiente Formato: dd-mm-aaaa para Obtener la Cantidad de Contagiados o "FIN" para Volver. Luego Presione la Tecla "Enter": '))
+                print('\n\n')
+                if fecha.upper() != 'FIN':
+                    dd, mm, aa = fcovid19.capturar_fecha(fecha)
+                    cant = fcovid19.casos_fecha(dd, mm, aa)
+                    print('La Cantidad de Personas Contagiadas que Hubo en la Fecha [{}] son: {}.\n\n'.format(fecha, cant))
             elif opcion_menu == 6:
                 system('cls')
                 fecha_u_actualizacion = fcovid19.fecha_uactualizacion( )

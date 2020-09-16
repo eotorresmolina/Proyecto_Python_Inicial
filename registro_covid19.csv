@@ -1,4 +1,4 @@
-nro_caso,genero,edad,provincia_residencia,fecha_inicio_sintomas,indicacion_internacion,fecha_internacion,cuidado_intensivo,asist_resp_mecanica,fallecido,fecha_fallecimiento,ultima_actualizacion
+8nro_caso,genero,edad,provincia_residencia,fecha_inicio_sintomas,indicacion_internacion,fecha_internacion,cuidado_intensivo,asist_resp_mecanica,fallecido,fecha_fallecimiento,ultima_actualizacion
 1,m,37,Buenos Aires,20-06-2020,NO,00-00-0000,NO,NO,NO,00-00-0000,2020-09-03
 2,f,27,Chaco,17-04-2020,NO,00-00-0000,NO,NO,NO,00-00-0000,2020-09-03
 3,f,64,Chaco,05-04-2020,NO,00-00-0000,NO,NO,NO,00-00-0000,2020-09-03
@@ -8,5 +8,5 @@ nro_caso,genero,edad,provincia_residencia,fecha_inicio_sintomas,indicacion_inter
 7,m,68,Buenos Aires,01-04-2020,SI,10-04-2020,SI,SI,SI,04-05-2020,2020-09-07
 8,f,30,Mendoza,10-06-2020,NO,00-00-0000,NO,NO,NO,00-00-0000,2020-09-07
 9,f,55,Santa Fe,07-06-2020,SI,15-06-2020,SI,si,si,01-07-2020,2020-09-09
-10,m,80,Córdoba,15-04-2020,si,17-04-2020,SI,SI,SI,30-04-2020,2020-09-12
+10,m,80,Cï¿½rdoba,15-04-2020,si,17-04-2020,SI,SI,SI,30-04-2020,2020-09-12
 11,m,28,Tierra del Fuego,10-05-2020,si,31-05-2020,NO,NO,NO,00-00-0000,2020-09-14
