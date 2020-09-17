@@ -42,7 +42,7 @@
  4. registro_covid19.py (Archivo .csv que Contiene todos los Registros de las Personas Contagiadas)
 
 
-# **Versión y Última Actualizando:**
+# **Versión y Última Actualización:**
  #### **Versión:** 1.1
  #### **Última Actualización:** 15-09-2020
 
