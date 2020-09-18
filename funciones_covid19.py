@@ -7,6 +7,11 @@ por el Covid-19.
 Archivo: registro_covid19.csv
 """
 
+__author__ = "Torres Molina Emmanuel Oscar"
+__email__ = "emmaotm@gmail.com"
+__version__ = "1.1"
+
+
 import myfunctions as myf
 import math as mth
 import datetime

@@ -4,6 +4,11 @@ y contiene distintas funciones que permiten la
 escritura/lectura del mismo.
 """
 
+__author__ = "Torres Molina Emmanuel Oscar"
+__email__ = "emmaotm@gmail.com"
+__version__ = "1.1"
+
+
 import os
 import csv
 
